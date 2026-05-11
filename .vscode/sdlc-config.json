@@ -1,0 +1,18 @@
+{
+  "GIT_HOST": "github.com",
+  "GIT_ORG": "KannanMahamuni",
+  "ORG_EMAIL": "epam.com",
+  "ORG_NAMESPACE": "com.epam",
+  "TECH_STACK": "Java, React",
+  "CLOUD_PROVIDER": "GCP",
+  "CI_CD": "GitLab CI",
+  "TICKET_SYSTEM": "Jira",
+  "JIRA_PREFIX": "EPMCDMETST",
+  "PRIMARY_LANGUAGE": "Java",
+  "FEATURE_FLAG_SYSTEM": "None",
+  "MONOREPO_TOOL": "None",
+  "INDUSTRY": "",
+  "BRAND_CODES": "",
+  "LOGGER_PACKAGE": "",
+  "IP_PACKAGE": ""
+}
