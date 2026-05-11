@@ -1,13 +1,13 @@
 {
 	"jira": {
 		"baseUrl": "https://jiraeu.epam.com",
-		"email": "kannan_mahamuni@epam.com",
-		"token": "quXUbOAeUbFwkj6R6c42rN1hBJUUw1rNjlNElM"
+		"email": "",
+		"token": ""
 	},
 	"confluence": {
 		"baseUrl": "https://kb.epam.com",
-		"email": "kannan_mahamuni@epam.com",
-		"token": "YONhybBh2hiDUvN1hKHciiG8IBfgEkYjv2D00N"
+		"email": "",
+		"token": ""
 	},
 	"defaults": {
 		"projectKey": "EPMCDMETST",
