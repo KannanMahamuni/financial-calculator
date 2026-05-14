@@ -21,7 +21,7 @@ Produce a self-contained implementation plan from prior SDLC artifacts. The plan
 ## Invocation
 
 ```
-@sdlc-impl-planning STEP-123
+@sdlc-impl-planning EPMCDMETST-41861
 ```
 
 ## Inputs (read in this order)
@@ -115,16 +115,6 @@ Confirm: `Feature branch <branch-name> created with implementation plan committe
 
 Append an `## Implementation Plan` section to `docs/artifacts/<TICKET>/artifact-digest.md`:
 
-```markdown
-## Implementation Plan (implementation_plan.md)
-
-- Steps: <N> files (<M> new, <K> modified)
-- Waves: <W> (if >8 files or waves requested)
-- Execution mode: <inline|waves>
-- Key risks: <1–2 line summary>
-- Design review conditions addressed: <yes/no + details>
-```
-
 ## `implementation_plan.md` Template
 
 ```markdown
@@ -139,7 +129,7 @@ Append an `## Implementation Plan` section to `docs/artifacts/<TICKET>/artifact-
 
 ## Problem Summary
 
-<2–3 sentences from problem_spec.problem_statement>
+<2–3 sentences from requirements.problem_statement>
 
 ## Key Requirements & Constraints
 
@@ -163,86 +153,18 @@ Append an `## Implementation Plan` section to `docs/artifacts/<TICKET>/artifact-
 
 - Run: `<test command>` and record pass/fail counts **before** any change.
 
-## Implementation Steps
-
-### Execution Mode: <inline|waves>
-
-### Step N: <file path> (<new|modify>) [COMP-###]
-
-- **Purpose:** …
-- **Dependencies:** <COMP-### IDs that must exist first>
-- **Key notes:** …
-- **Acceptance criteria:** <REQ-### AC-### mappings>
-- **Verify:** `<specific test command>`
-
-## Wave Plan
-
-<Include if >8 files or waves requested. Otherwise: "N/A — inline execution (≤8 files)">
-
-| Wave | Files | Deps satisfied | Test command |
-|---|---|---|---|
-| 0 | types.ts, constants.ts | none | `<cmd>` |
-| 1 | service.ts | Wave 0 | `<cmd>` |
-
-## Risks
-
-| Risk | Impact | Mitigation |
-|---|---|---|
-| … | … | … |
-
-## Edge Cases (from problem_spec)
-
-| ID | Scenario | Expected behavior |
-|---|---|---|
-| EC-001 | … | … |
-
-## Non-Functional Hardening Tasks
-
-### Controller / API Boundary
-- [ ] All path inputs validated (null, blank, case contract)
-- [ ] All new response fields: null fallback defined
-- [ ] API documentation annotations: auth per role, case-sensitivity, all error conditions
-
-### Service Layer
-- [ ] Every map lookup: explicit null handling
-- [ ] Every data-anomaly handler (merge, dedup): WARN-level log with context
-- [ ] Every nullable entity field read: null guard with descriptive exception
-
-### Data Access / Query Layer
-- [ ] Every non-trivial query: algorithm comment
-- [ ] Every filter/join on non-PK columns: inline comment noting required index
-- [ ] GROUP BY on nullable: NOT NULL filter
-
-### Exception Handling
-- [ ] Every custom exception: verified in centralized error handler
-- [ ] Exception messages include the triggering value
-
-### Logging / Observability
-- [ ] No INFO+ logs emit raw emails / names / PII
-- [ ] Every swallowed exception: WARN or ERROR with the original attached
-
-### API Contract Documentation
-- [ ] design_spec API contracts reflected in API docs (Swagger / OpenAPI)
-- [ ] Case-sensitivity / casing contract documented
-
-## Post-Implementation Checklist
-
-- [ ] All tests pass (no regressions from baseline)
-- [ ] `impl_manifest.md` written with accurate file lists
-- [ ] Health-check endpoints verified (if applicable)
-- [ ] All Non-Functional Hardening Tasks completed or marked N/A with one-line justification
-
 ## Pipeline Continuation
 
-After implementation completes, the `@sdlc` orchestrator continues through:
+After implementation plan completes, the `@sdlc` orchestrator continues through:
 
+- Phase 5: Implementation (`@sdlc-implementation`)
 - Phase 6: Simplify (`@sdlc-simplify`)
 - Phase 7: Review (`@code-review` + `@security-scan`)
 - Phase 8: Verification (`@sdlc-verify`)
 - Phase 9: Risk Assessment (`@sdlc-risk`)
 - Phase 10: PR Creation (`/create-pr` prompt)
 
-**Do not skip phases 6–10.**
+**Do not skip phases 5–10.**
 
 Resume: `@sdlc resume <TICKET>`
 ```

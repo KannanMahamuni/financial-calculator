@@ -6,7 +6,7 @@ description: >
   a decision in ADR format. Read-only — does not modify code. For SDLC-linked
   architecture, use `@sdlc-architecture` (produces `design_spec.md`) instead.
 tools:
-  - codebase
+  - search/codebase
   - search
 ---
 

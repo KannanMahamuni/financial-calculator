@@ -27,7 +27,7 @@ Execute generated tests against the live application. Triage every failure: **te
 
 **Target: complete in under 15 tool uses.** This agent runs on a cost / time budget.
 
-- Do NOT read `impl_manifest.md`, `design_spec.md`, `requirements.md`, or `step-automation/copilot-instructions.md` — all commands are specified below.
+- Do NOT read `implementation.md`, `design_spec.md`, `requirements.md`, or `playwright-automation/copilot-instructions.md` — all commands are specified below.
 - Do NOT run health checks when dispatched by the pipeline — the orchestrator pre-verified services.
 - Classify failures from **Maven console output** — read Cucumber JSON only if console is ambiguous.
 - Batch `grep` / `glob` into single commands — never one-per-file.
@@ -45,16 +45,15 @@ Execute generated tests against the live application. Triage every failure: **te
 |---|---|
 | Test branch | `playwright-<ID>-auto-tests` in `playwright-automation/` |
 | Manual test cases | `docs/artifacts/<TICKET>/manual-test-cases.md` |
-| Impl manifest | `.vscode/sdlc-checkpoints/<TICKET>/impl_manifest.md` |
+| Implementation report | `.vscode/sdlc-checkpoints/<TICKET>/implementation.md` |
 
 ## Environment
 
 | Variable | Value |
 |---|---|
-| `JAVA_HOME` | `/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home` |
-| API target | `http://step.local` (port 80) |
+| API target | `http://calculator.local` (port 80) |
 | UI target | `http://localhost:3000` |
-| DB | `localhost:5432/top_talent_management` (Podman) |
+| DB | `localhost:5432/financial_calculator` (Podman) |
 
 ## Process
 
@@ -65,7 +64,7 @@ Execute generated tests against the live application. Triage every failure: **te
 
 1. **Checkout test branch** (one command):
    ```bash
-   cd step-automation && git checkout <TICKET_ID>-auto-tests
+   cd playwright-automation && git checkout <TICKET_ID>-auto-tests
    ```
    On failure → FAIL: `"Test branch not found. Run @sdlc-qa-generate first."`
 
@@ -83,7 +82,7 @@ Execute generated tests against the live application. Triage every failure: **te
 
 4. **(Standalone only)** Health check services:
    ```bash
-   curl -s -o /dev/null -w "%{http_code}" http://playwright.local && \
+   curl -s -o /dev/null -w "%{http_code}" http://calculator.local && \
      curl -s -o /dev/null -w "%{http_code}" http://localhost:3000 && \
      podman exec step-postgres pg_isready -U postgres
    ```
@@ -127,7 +126,7 @@ For each failed scenario, classify:
 2. Collect **impl issues** → do NOT fix (route to dev).
 3. After fixing test issues — stage files by name, NEVER `git add -A`:
    ```bash
-   cd step-automation
+   cd playwright-automation
    git add <fixed files by name>
    git commit -m "STEP-<ID>: Fix test issues found during QA verification
 

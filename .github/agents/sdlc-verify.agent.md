@@ -6,12 +6,7 @@ description: >
   `verification_report.md` with status passed / passed_with_warnings / failed
   / blocked. Not for code reviews, risk assessments, or writing new code.
 tools:
-  - codebase
-  - search
-  - editFiles
-  - runCommands
-  - sdlc/validateArtifact
-  - sdlc/computeCoverage
+[execute/getTerminalOutput, execute/runInTerminal, read/terminalSelection, read/terminalLastCommand, read/readFile, edit/editFiles, search]
 ---
 
 # SDLC Verify
@@ -35,7 +30,7 @@ All must exist before verification can proceed:
 1. `.vscode/sdlc-checkpoints/<TICKET>/` (pipeline state dir)
 2. `docs/artifacts/<TICKET>/requirements.md`
 3. `docs/artifacts/<TICKET>/design_spec.md`
-4. `.vscode/sdlc-checkpoints/<TICKET>/impl_manifest.md`
+4. `.vscode/sdlc-checkpoints/<TICKET>/implementation.md`
 
 If any are missing: STOP and report which. Do not proceed with partial inputs.
 
@@ -64,7 +59,7 @@ Spec artifacts (`docs/artifacts/<TICKET>/`):
 - `design_review.md` — verdict and findings.
 
 Execution artifacts (`.vscode/sdlc-checkpoints/<TICKET>/`):
-- `impl_manifest.md` — files created / modified, entry points, dependencies, test files.
+- `implementation.md` — files created / modified, entry points, dependencies, test files.
 - `test_report.json` — optional, from the review phase.
 - `security_audit.json` — optional, from `@security-scan`.
 

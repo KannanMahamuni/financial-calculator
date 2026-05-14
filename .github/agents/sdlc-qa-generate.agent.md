@@ -3,7 +3,7 @@ name: sdlc-qa-generate
 description: >
   Generate QA test artifacts (manual test cases + tagged Cucumber automation)
   from a Jira ticket context. Runs in parallel with `@sdlc-requirements` in
-  Phase 1. Invoke via handoff from `@sdlc` or as `@sdlc-qa-generate STEP-123`.
+  Phase 1. Invoke via handoff from `@sdlc` or as `@sdlc-qa-generate EPMCDMETST-41861`.
   Produces feature files, step defs, and page objects on a feature branch in
   `calculator-automation/`. Not for test execution â€” that's `@sdlc-qa-verify`.
 tools:
@@ -75,7 +75,7 @@ Follow `playwright-automation/docs/agents/manual-tc-generator-agent.md` exactly.
 
 ### Step 4 â€” Automation code generation
 
-Follow `step-automation/docs/agents/automation-script-generator-agent.md` rules exactly.
+Follow `playwright-automation/docs/agents/automation-script-generator-agent.md` rules exactly.
 
 1. **Select top 2â€“3 High-priority test cases:**
    - Filter `Priority = High`.
@@ -84,47 +84,15 @@ Follow `step-automation/docs/agents/automation-script-generator-agent.md` rules 
 
 2. **Create the feature branch** in `playwright-automation/` via `runCommands`:
    ```bash
-   cd playwright-automation && git checkout -b STEP-<ID>-auto-tests
+   cd playwright-automation && git checkout -b CALCULATOR-<ID>-auto-tests
    ```
-   `<ID>` is the numeric portion of the ticket (e.g. `2605` from `EPMCDMETST-41861`).
+   `<ID>` is the numeric portion of the ticket (e.g. `41861` from `EPMCDMETST-41861`).
 
-3. **Scan existing step defs before writing any code** â€” one command, not per-file:
-   ```bash
-   grep -r "@Given\|@When\|@Then\|@And" step-automation/src/test/java/com/epam/step/stepdefinitions/
-   ```
-   Build a reuse list. Never duplicate a step definition.
-
-4. **Generate files** â€” for each selected TC:
-   - `.feature` file: **tag every scenario** with `@<TICKET_ID>` (e.g. `@EPMCDMETST-41861`).
+3. **Generate files** â€” for each selected TC:
+   - `.ts` file: **tag every scenario** with `@<TICKET_ID>` (e.g. `@EPMCDMETST-41861`).
    - Step-definition class (if new steps needed).
    - Page-object class (if new UI page needed).
    - Update `system.properties` (if new API endpoint).
-
-5. **Follow all 10 code-generation rules:**
-   1. No duplicate step definitions.
-   2. PicoContainer injection in constructors.
-   3. `PropertyReader` path format: `src\\main\\resources\\system.properties`.
-   4. Role switching via `TokenManager` only.
-   5. File-upload path construction per framework conventions.
-   6. Response-validation patterns.
-   7. UI file upload + validation via `UiUtil`.
-   8. Feature-file `DataTable` format.
-   9. New `system.properties` keys for new endpoints.
-   10. No unused imports.
-
-6. **Commit** â€” stage only generated/modified files **by name** (never `git add -A`):
-   ```bash
-   cd step-automation
-   git add src/test/resources/features/<generated files> \
-           src/test/java/<generated files> \
-           src/main/java/<new page objects if any> \
-           src/main/resources/system.properties
-   git commit -m "PLAYWRIGHT-<ID>: Add automated tests for <TICKET_ID>
-
-   Generated from JIRA ticket context:
-   - Manual test cases: docs/artifacts/<TICKET>/manual-test-cases.md
-   - Feature files: <list>
-   - Tagged with @<TICKET_ID> for scoped execution"
    ```
 
 ### Step 5 â€” Output summary
@@ -134,7 +102,7 @@ Print to chat:
 ```
 === QA TEST GENERATION COMPLETE ===
 Ticket: <TICKET_ID>
-Branch: STEP-<ID>-auto-tests (in step-automation/)
+Branch: CALCULATOR-<ID>-auto-tests (in playwright-automation/)
 Manual TCs: <count> â†’ docs/artifacts/<TICKET>/manual-test-cases.md
 
 TC SELECTION (top 3 High priority):

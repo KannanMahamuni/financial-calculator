@@ -3,8 +3,7 @@ name: sdlc-design-review
 description: >
   Critically review an architecture / design spec before implementation.
   Invoke as `@sdlc-design-review EPMCDMETST-41861`. Produces `design_review.md` with
-  verdict (`approve` / `approve_with_concerns` / `reject`). Read-only — never
-  modifies source. Not for creating designs or writing code.
+  verdict (`approve` / `approve_with_concerns` / `reject`). 
 tools:
   - codebase
   - search

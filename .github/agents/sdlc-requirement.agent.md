@@ -133,7 +133,7 @@ Rules:
 Report back to the orchestrator (or the user) with:
 
 ```
-Requirements complete — docs/artifacts/<TICKET>/problem_spec.md
+Requirements complete — docs/artifacts/<TICKET>/requirements.md
 - Requirements: <N> (P0: <n>, P1: <n>, P2: <n>)
 - Non-goals: <n>
 - Assumptions needing validation: <n>
