@@ -8,25 +8,14 @@ description: >
   `@sdlc EPMCDMETST-41861 from=<phase>`. Not for single-phase work — use the phase-specific
   agent (e.g. @sdlc-requirements) directly for that.
 tools:
-  - codebase
-  - search
-  - editFiles
-  - runCommands
-  - runTasks
-  - problems
-  - changes
-  - terminalSelection
-  - terminalLastCommand
-  - sdlc/validateArtifact
-  - sdlc/saveCheckpoint
-  - sdlc/loadCheckpoint
-  - sdlc/computeCoverage
+[execute/getTerminalOutput, execute/createAndRunTask, execute/runInTerminal, read/terminalSelection, read/terminalLastCommand, read/problems, read/readFile, edit/editFiles, search]
 handoffs:
   - sdlc-requirements
   - sdlc-qa-generate
   - sdlc-architecture
   - sdlc-design-review
   - sdlc-impl-planning
+  - sdlc-implementation
   - sdlc-simplify
   - sdlc-verify
   - sdlc-qa-verify
@@ -59,8 +48,8 @@ You are the pipeline conductor. You chain phase agents together in sequence, man
 | 2  | Architecture     | `@sdlc-architecture` (may hand off to `@architect`)               | `design_spec.md`                           | `docs/artifacts/<TICKET>/`        |
 | 3  | Design review    | `@sdlc-design-review`                                             | `design_review.md`                         | `docs/artifacts/<TICKET>/`        |
 | 4  | Impl planning    | `@sdlc-impl-planning`                                             | `implementation_plan.md`                   | `docs/artifacts/<TICKET>/`        |
-| 5  | Implementation   | inline (orchestrator edits source)                                | `impl_manifest.md`                         | `.vscode/sdlc-checkpoints/<TICKET>/` |
-| 6  | Simplify         | `@sdlc-simplify`                                                  | `## Simplification` in `impl_manifest.md`  | `.vscode/sdlc-checkpoints/<TICKET>/` |
+| 5  | Implementation   | inline (orchestrator edits source)                                | `implementation.md`                         | `.vscode/sdlc-checkpoints/<TICKET>/` |
+| 6  | Simplify         | `@sdlc-simplify`                                                  | `## Simplification` in `implementation.md`  | `.vscode/sdlc-checkpoints/<TICKET>/` |
 | 7  | Review           | parallel handoffs: `@code-review` + `@security-scan`              | findings (security is a hard gate)         | in-context                        |
 | 8  | Verification     | `@sdlc-verify` **+** `@sdlc-qa-verify` (sequential, after build) | `verification_report.md` + `qa_verification_report.md` | `docs/artifacts/<TICKET>/` |
 | 9  | Risk assessment  | `@sdlc-risk`                                                      | `risk_assessment.md`                       | `docs/artifacts/<TICKET>/` |
@@ -195,10 +184,10 @@ On `@sdlc resume <TICKET>`:
    | Resuming into        | Load                                                    | Skip                                         |
    |----------------------|---------------------------------------------------------|----------------------------------------------|
    | Phase 5 (Impl)       | `artifact-digest.md` + `implementation_plan.md`         | full specs — digest has the summary          |
-   | Phase 6 (Simplify)   | `impl_manifest.md`                                      | all spec artifacts                           |
-   | Phase 7 (Review)     | `impl_manifest.md` + `artifact-digest.md`               | full specs — sub-agents fetch what they need |
+   | Phase 6 (Simplify)   | `implementation.md`                                      | all spec artifacts                           |
+   | Phase 7 (Review)     | `implementation.md` + `artifact-digest.md`               | full specs — sub-agents fetch what they need |
    | Phase 8–9            | nothing — sub-agents load their own context             | everything                                   |
-   | Phase 10 (PR)        | `artifact-digest.md` + `impl_manifest.md` + `risk_assessment.md` | full specs                           |
+   | Phase 10 (PR)        | `artifact-digest.md` + `implementation.md` + `risk_assessment.md` | full specs                           |
 
 5. Do not re-run completed phases unless the user supplied `from=<phase>`.
 
@@ -245,30 +234,20 @@ and stop.
 | `design_spec.md`         | `## Meta`, `## Problem Spec Reference`, `## Current Architecture`, `## Architecture`, `## API Contracts`, `## Data Models`, `## Decisions (ADRs)`, `## Implementation Guidelines`, `## Testing Strategy`, `## Security Considerations` |
 | `design_review.md`       | `## Meta`, `## Summary`, `## Findings`, `## Sign-Off` |
 | `implementation_plan.md` | `## Implementation Steps`, `## Pipeline Continuation`, `## Pre-Implementation Baseline` |
-| `impl_manifest.md`       | `## Summary`, `## Baseline Test Counts`, `## Final Test Counts`, `## Files Created`, `## Files Modified`, `## Test Files`, `## Simplification` |
+| `implementation.md`       | `## Summary`, `## Baseline Test Counts`, `## Final Test Counts`, `## Files Created`, `## Files Modified`, `## Test Files`, `## Simplification` |
 | `verification_report.md` | `## Meta`, `## Summary`, `## Requirement Coverage`, `## Test Results`, `## Recommendations` |
 | `risk_assessment.md`     | `## Meta`, `## Summary`, `## Failure Modes`, `## Sign-Off` |
 
 ## Phase 5 — Implementation (inline)
 
-Only phase performed inline by this agent. Follow the **Incremental Testing Protocol**:
-
-1. Run the full test suite before any edit. Record pass/fail counts in `impl_manifest.md` → `## Baseline Test Counts`.
-2. Edit **one file at a time**. After each edit:
-   - Run the relevant test subset (unit tests for changed modules).
-   - If tests fail, fix before moving on. Do not batch.
-3. When all planned changes are applied, run the full suite again. Record counts in `## Final Test Counts`.
-4. Update `impl_manifest.md` sections: `## Summary`, `## Files Created`, `## Files Modified`, `## Test Files`.
-5. Call `sdlc.saveCheckpoint` with `implementation_sha = <git rev-parse HEAD>`.
-
-If `waves` was passed **or** `design_spec.md` lists 9+ files to touch: run in waves — group independent files, edit each group in parallel-friendly batches, re-test between waves.
+Pure code development phase. The orchestrator edits source files directly based on the `implementation_plan.md` produced by Phase 4. The agent is responsible for writing that plan in a way that can be executed mechanically.
 
 ## Model Guidance (recommendation only)
 
 | Phases | Focus                                  | Recommended |
 |--------|----------------------------------------|-------------|
 | 1–4    | Deep reasoning, spec synthesis         | Most capable available (e.g. GPT-5, Claude Opus 4.x) |
-| 5–10   | Code execution, mechanical review      | Balanced / faster model is usually sufficient |
+| 5–10   | Code development and execution, mechanical review      | Balanced / faster model is usually sufficient |
 
 The pipeline does not force model switching — use VS Code's model picker. The Phase 4 "fresh-session" path is the natural boundary.
 

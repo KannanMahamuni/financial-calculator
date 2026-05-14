@@ -21,14 +21,14 @@ Review recently changed code for reuse opportunities, quality issues, and effici
 
 ```
 @sdlc-simplify                         # reviews git diff HEAD~5..HEAD
-@sdlc-simplify EPMCDMETST-41861        # reads impl_manifest.md for file list
+@sdlc-simplify EPMCDMETST-41861        # reads implementation.md for file list
 ```
 
 ## Process
 
 ### 1. Identify changed files
 
-- **From the pipeline:** read `.vscode/sdlc-checkpoints/<TICKET>/impl_manifest.md` — `## Files Created` + `## Files Modified`.
+- **From the pipeline:** read `.vscode/sdlc-checkpoints/<TICKET>/implementation.md` — `## Files Created` + `## Files Modified`.
 - **Standalone:** `git diff --name-only HEAD~5..HEAD` via `runCommands`.
 
 ### 2. Review each file
@@ -53,7 +53,7 @@ For each issue:
 
 ### 4. Report
 
-Append a `## Simplification` section to `.vscode/sdlc-checkpoints/<TICKET>/impl_manifest.md` (pipeline) or print the report to chat (standalone).
+Append a `## Simplification` section to `.vscode/sdlc-checkpoints/<TICKET>/implementation.md` (pipeline) or print the report to chat (standalone).
 
 ## Output Format
 
@@ -86,7 +86,7 @@ Files reviewed: N | Issues found: N | Issues fixed: N | Tests re-run: N (all pas
 Report:
 
 ```
-Simplify complete — appended to impl_manifest.md
+Simplify complete — appended to implementation.md
 - Files reviewed: <N>
 - Issues fixed: <N>
 - Tests: <N passed / N failed>

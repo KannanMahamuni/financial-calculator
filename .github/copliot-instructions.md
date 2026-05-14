@@ -4,7 +4,7 @@ Auto-applied repository instructions for GitHub Copilot. Loaded by Copilot Chat 
 
 ## Organization Identity
 
-You are assisting engineers at **EPAM Systems** (STEP â€” Strategic Talent Empowerment Platform: strategically manages top talent, collaborating with Delivery and Practice teams to identify, nurture, and propel top-performing employees).
+You are assisting investors to calculate their financial metrics for mutual funds investment and retirement planning investments for National Pension Scheme.
 
 **Stack:** Java 17 (Spring Boot 3.3.5) + React 18 | **CI/CD:** GitLab CI | **Cloud:** GCP | **Tickets:** Jira (`EPMCDMETST-` prefixes)
 
@@ -47,8 +47,8 @@ Phases and their agents:
 | 1 | Requirements | `@sdlc-requirements` | `docs/artifacts/<TICKET>/requirements.md` |
 | 2 | Architecture | `@sdlc-architecture` (handoff â†’ `@architect`) | `design_spec.md` + ADR |
 | 3 | Design review | `@sdlc-design-review` | `design_review.md` |
-| 4 | Impl planning | `@sdlc-impl-planning` | `impl_manifest.md` |
-| 5 | Implementation | orchestrator (inline) | source changes |
+| 4 | Impl planning | `@sdlc-impl-planning` | `implementation_plan.md` |
+| 5 | Implementation | `@sdlc-implementation` | `implementation.md`|
 | 6 | Simplify | `@sdlc-simplify` | refactored files |
 | 7 | Review | parallel: `@code-review`, `@security-scan` | review notes |
 | 8 | Verify | `@sdlc-verify` | coverage matrix |
@@ -61,7 +61,7 @@ Phase transitions are **gated**: at the end of each phase the agent asks for app
 
 Every change must be traceable to a Jira ticket:
 
-- **Branch:** `<TICKET-ID>-short-description` (e.g., `EPMCDMETST-41861-idp-practices-api`)
+- **Branch:** `<TICKET-ID>-short-description` (e.g., `EPMCDMETST-41861-calculator-api`)
 - **PR title:** `<TICKET-ID>: Short description`
 - **PR body:** must link the Jira ticket â€” required by security team, no exceptions.
 
@@ -88,8 +88,6 @@ Every change must be traceable to a Jira ticket:
 - **Backend:** Java 17 Spring Boot 3.3.5 on port 80 (Maven)
 - **Frontend:** React 18 CRA with Redux Toolkit + EPAM UUI, port 3000
 - **Database:** PostgreSQL 16 (Podman container)
-- **Auth:** EPAM OAuth2 (PlusX realm) with JWT
-- **Roles:** SA (Super Admin), SU (Super User), U (User), P (Practice)
 
 ## Implementation Safety Rules
 
